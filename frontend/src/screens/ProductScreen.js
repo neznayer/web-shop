@@ -21,7 +21,7 @@ const ProductScreen = ({ history, match }) => {
     // match comes from Router. match.params.x here :x. abc/:x/:y,  -> match.params.x, match.params.y
 
     //const [product, setProduct] = useState({});
-    const [qty, setQty] = useState(0); // qty to add to cart
+    const [qty, setQty] = useState(1); // qty to add to cart
 
     //find producrt by id. (id is getted from link, from Router's :id)
 
