@@ -6,6 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getUserDetails, updateUser } from "../actions/userActions";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import { USER_UPDATE_RESET } from "../constants/userConstants";
 
 const ProfileScreen = ({ location, history }) => {
     const [name, setName] = useState("");
@@ -29,13 +30,14 @@ const ProfileScreen = ({ location, history }) => {
             history.push("/login");
         } else {
             if (!user.name || success) {
+                dispatch({ type: USER_UPDATE_RESET });
                 dispatch(getUserDetails("profile"));
             } else {
                 setName(user.name);
                 setEmail(user.email);
             }
         }
-    }, [dispatch, user, userInfo, history]);
+    }, [dispatch, user, userInfo, history, success]);
 
     const submitHandler = (e) => {
         e.preventDefault();
