@@ -20,7 +20,6 @@ const RegisterScreen = ({ location, history }) => {
 
     const userRegister = useSelector((state) => state.userRegister);
 
-    console.log(location.search);
     const redirect = location.search ? location.search.split("=")[1] : "/";
 
     const { loading, error, userInfo } = userRegister;
