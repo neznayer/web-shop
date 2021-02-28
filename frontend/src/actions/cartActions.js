@@ -1,6 +1,7 @@
 import {
     CART_ADD_ITEM,
     CART_REMOVE_ITEM,
+    CART_RESET,
     CART_SAVE_SHIPPING_ADDRESS,
     CART_SAVE_SPAYMENT_METHOD,
 } from "../constants/cartConstants";
@@ -48,10 +49,15 @@ export const saveShippingAddress = (data) => async (dispatch, getState) => {
     });
     localStorage.setItem("shippingAddress", JSON.stringify(data));
 };
-export const savePaymentMethod = (data) => async (dispatch, getState) => {
+export const savePaymentMethod = (data) => (dispatch, getState) => {
     dispatch({
         type: CART_SAVE_SPAYMENT_METHOD,
         payload: data,
     });
     localStorage.setItem("shippingPaymentMethod", JSON.stringify(data));
+};
+
+export const resetCart = () => (dispatch) => {
+    dispatch({ type: CART_RESET });
+    localStorage.removeItem("cartItems");
 };

@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { resetCart } from "../actions/cartActions";
 import { createOrder } from "../actions/orderActions";
 import CheckoutSteps from "../components/CheckoutSteps";
 import Message from "../components/Message";
@@ -53,6 +54,7 @@ const PlaceOrderScreen = ({ history }) => {
                 totalPrice: cart.totalPrice,
             })
         );
+        dispatch(resetCart());
     };
 
     return (
