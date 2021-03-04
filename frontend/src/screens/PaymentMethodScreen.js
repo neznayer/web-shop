@@ -20,7 +20,6 @@ const PaymentMethodScreen = ({ history }) => {
 
     const handleChange = (e) => {
         setPaymentMethod(e.target.value);
-        console.log(e.target.value);
     };
 
     const submitHandler = (e) => {

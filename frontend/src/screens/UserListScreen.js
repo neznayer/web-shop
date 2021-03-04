@@ -7,20 +7,33 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
-import { listUsers } from "../actions/userActions";
+import { listUsers, deleteUser } from "../actions/userActions";
 import { Button, Table } from "react-bootstrap";
 
-const UserListScreen = () => {
+const UserListScreen = ({ history }) => {
     const dispatch = useDispatch();
     const userList = useSelector((state) => state.userList);
     const { loading, error, users } = userList;
 
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
+
+    const { success: successDelete } = useSelector((state) => state.userDelete);
+
     const deleteHandler = (e) => {
-        console.log("delete user" + e.target.parentNode.dataset.value);
+        if (window.confirm("Are you Sure?")) {
+            dispatch(deleteUser(e.target.parentNode.dataset.value));
+        }
     };
+
     useEffect(() => {
-        dispatch(listUsers());
-    }, [dispatch]);
+        // only show this if user is Admin. if not, redirect to login page
+        if (userInfo && userInfo.isAdmin) {
+            dispatch(listUsers());
+        } else {
+            history.push("/login");
+        }
+    }, [dispatch, history, userInfo, successDelete]); //success delete changes and list users is reloaded
     return (
         <>
             <h2>Users</h2>
@@ -64,7 +77,7 @@ const UserListScreen = () => {
                                 </td>
                                 <td>
                                     <LinkContainer
-                                        to={`/user/${user._id}/edit`}
+                                        to={`/admin/user/${user._id}/edit`}
                                     >
                                         <Button
                                             variant="light"
