@@ -17,6 +17,10 @@ import {
     USER_REGISTER_FAIL,
     USER_REGISTER_REQUEST,
     USER_REGISTER_SUCCESS,
+    USER_UPDATE_BY_ADMIN_FAIL,
+    USER_UPDATE_BY_ADMIN_REQUEST,
+    USER_UPDATE_BY_ADMIN_RESET,
+    USER_UPDATE_BY_ADMIN_SUCCESS,
     USER_UPDATE_FAIL,
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
@@ -219,6 +223,47 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: USER_DELETE_FAIL,
+            payload: error?.response?.data.message || error.message,
+        });
+    }
+};
+
+export const updateUserByAdmin = (user) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_UPDATE_BY_ADMIN_REQUEST,
+        });
+
+        const {
+            userLogin: { userInfo }, //take from userLogin part of the state
+        } = getState();
+
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+
+        const { data } = await axios.put(
+            `/api/users/${user._id}`,
+            user,
+            config
+        );
+
+        dispatch({
+            type: USER_UPDATE_BY_ADMIN_SUCCESS,
+            payload: data,
+        });
+        dispatch({
+            //to display updated user info
+            type: USER_DETAILS_SUCCESS,
+            payload: data,
+        });
+        dispatch({ type: USER_UPDATE_BY_ADMIN_RESET });
+    } catch (error) {
+        dispatch({
+            type: USER_UPDATE_BY_ADMIN_FAIL,
             payload: error?.response?.data.message || error.message,
         });
     }
