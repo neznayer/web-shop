@@ -260,7 +260,6 @@ export const updateUserByAdmin = (user) => async (dispatch, getState) => {
             type: USER_DETAILS_SUCCESS,
             payload: data,
         });
-        dispatch({ type: USER_UPDATE_BY_ADMIN_RESET });
     } catch (error) {
         dispatch({
             type: USER_UPDATE_BY_ADMIN_FAIL,

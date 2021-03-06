@@ -34,7 +34,6 @@ const Header = () => {
                                 >
                                     <LinkContainer to="/profile">
                                         <NavDropdown.Item>
-                                            {" "}
                                             Profile
                                         </NavDropdown.Item>
                                     </LinkContainer>
