@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
 import Message from "../components/Message";
@@ -22,7 +22,11 @@ const ProductEditScreen = ({ match, history }) => {
         image: "",
         countInStock: 0,
     };
+
     const [productEditDetails, setProductEditDetails] = useState(fields);
+
+    const [uploading, setUploading] = useState(false);
+
     const dispatch = useDispatch();
 
     const { loading, error, product } = useSelector(
@@ -51,12 +55,44 @@ const ProductEditScreen = ({ match, history }) => {
         dispatch(updateProduct(productEditDetails));
     };
 
-    const changeHandler = (e) => {
+    const changeHandler = async (e) => {
+        let valueToPut;
+        if (e.target.id === "image-file") {
+            // if file control is changed, upload file
+            const file = e.target.files[0];
+            const formData = new FormData();
+            formData.append("image", file);
+            setUploading(true);
+
+            try {
+                const config = {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                };
+                const { data } = await axios.post(
+                    "/api/upload",
+                    formData,
+                    config
+                );
+
+                setUploading(false);
+                valueToPut = data;
+            } catch (error) {
+                console.log(error);
+                setUploading(false);
+            }
+        } else {
+            valueToPut = e.target.value;
+        }
+
         setProductEditDetails({
             ...productEditDetails,
-            [e.target.name]: e.target.value,
+            [e.target.name]: valueToPut,
         });
     };
+    // if changed image-file upload control, upload the image, get path to it on the server,
+    // e.target.name is the same for file control and for text-field. so the "image" in the state will be updated whatever of two controls have changed
 
     return (
         <>
@@ -87,7 +123,9 @@ const ProductEditScreen = ({ match, history }) => {
                                             : undefined
                                     }
                                     rows={
-                                        fieldName === "description" ? 3 : null
+                                        fieldName === "description"
+                                            ? 3
+                                            : undefined
                                     }
                                     placeholder={`enter ${upperFirst(
                                         lowerCase(fieldName)
@@ -96,6 +134,16 @@ const ProductEditScreen = ({ match, history }) => {
                                     name={fieldName}
                                     onChange={changeHandler}
                                 ></Form.Control>
+                                {fieldName === "image" && (
+                                    <>
+                                        <Form.File
+                                            name="image"
+                                            id="image-file"
+                                            onChange={changeHandler}
+                                        ></Form.File>
+                                        {uploading && <Loader />}
+                                    </>
+                                )}
                             </Form.Group>
                         );
                     })}
