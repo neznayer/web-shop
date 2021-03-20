@@ -5,9 +5,28 @@ import Product from "../models/productModel.js";
 // @route GET /api/products
 // @access Public
 export const getProducts = asyncHandler(async (req, res) => {
-    const products = await Product.find({});
+    //pagination
 
-    res.json(products);
+    const pageSize = 2;
+    const page = Number(req.query.pageNumber) || 1;
+
+    const keyword = req.query.keyword
+        ? // if keyword is empty, get all products
+          {
+              name: {
+                  $regex: req.query.keyword,
+                  $options: "i", //case insensitive
+              },
+          }
+        : {};
+    // end/point??lalala
+
+    const count = await Product.countDocuments({ ...keyword }); //count of products
+    const products = await Product.find({ ...keyword })
+        .limit(pageSize)
+        .skip(pageSize * (page - 1));
+
+    res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc Fetch all products
