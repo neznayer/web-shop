@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
 
-app.use(bodyParser.json());
+app.use(express.json());
 // __dirname is not available if using ES6, only in commonJS!
 const __dirname = path.resolve();
 
@@ -35,8 +35,9 @@ app.get("/api/config/paypal", (req, res) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.resolve(__dirname, "frontend", "build")));
+    app.use(express.static(path.resolve(__dirname, "frontend", "build"))); // folder /frontend/build is served at virtual path /
     app.get("*", (req, res) => {
+        //any path  that not in API will point to /frontend/build/index.html
         res.sendFile(
             path.resolve(__dirname, "frontend", "build", "index.html")
         );
