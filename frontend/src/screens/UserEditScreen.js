@@ -34,7 +34,7 @@ const UserEditScreen = ({ match, history }) => {
         // if user update is successed then redirect to user list
         if (successUpdate) {
             dispatch({ type: USER_UPDATE_BY_ADMIN_RESET });
-            console.log("hello");
+
             history.push("/admin/userlist");
         } else {
             if (!user.name) {

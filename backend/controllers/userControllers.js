@@ -76,8 +76,6 @@ export const getUserProfile = asyncHandler(async (req, res) => {
 export const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
 
-    console.log(req.body);
-
     if (user) {
         //user._doc = { ...user._doc, ...req.body };
         user.name = req.body.name || user.name;

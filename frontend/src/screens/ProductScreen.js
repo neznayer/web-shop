@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import {
     Button,
@@ -20,6 +19,7 @@ import {
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { PRODUCT_ADD_REVIEW_RESET } from "../constants/productConstants";
+import { Meta } from "../components/Meta";
 
 const ProductScreen = ({ history, match }) => {
     // match comes from Router. match.params.x here :x. abc/:x/:y,  -> match.params.x, match.params.y
@@ -72,6 +72,7 @@ const ProductScreen = ({ history, match }) => {
                 <Message variant="danger">{error}</Message>
             ) : (
                 <>
+                    <Meta title={product.name} />
                     <Row>
                         <Col md={6}>
                             <Image

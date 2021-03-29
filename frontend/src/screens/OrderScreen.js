@@ -76,7 +76,7 @@ const OrderScreen = ({ match, history }) => {
         if (!order || successPay || successDeliver) {
             dispatch({ type: ORDER_PAY_RESET });
             dispatch({ type: ORDER_DELIVER_RESET });
-            console.log("dispatched");
+
             dispatch(getOrderDetails(orderId));
         } else if (!order.isPaid) {
             if (!window.paypal) {

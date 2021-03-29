@@ -32,7 +32,7 @@ export const ProductCarousel = () => {
                         ></Image>
                         <Carousel.Caption>
                             <h3>
-                                {product.name} ({product.price})
+                                {product.name} (${product.price})
                             </h3>
                         </Carousel.Caption>
                     </Link>
