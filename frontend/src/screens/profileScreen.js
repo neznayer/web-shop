@@ -102,7 +102,7 @@ const ProfileScreen = ({ location, history }) => {
                             }}
                         ></Form.Control>
                     </Form.Group>
-                    <Form.Group controlId="password">
+                    <Form.Group controlId="ConfirmPassword">
                         <Form.Label>Confirm Password</Form.Label>
                         <Form.Control
                             type="password"
@@ -127,7 +127,7 @@ const ProfileScreen = ({ location, history }) => {
                     <Message variant="warning">{myOrdersError}</Message>
                 ) : (
                     <Table
-                        stripped
+                        striped
                         bordered
                         hover
                         responsive
@@ -173,7 +173,7 @@ const ProfileScreen = ({ location, history }) => {
                                         <LinkContainer
                                             to={`/order/${order._id}`}
                                         >
-                                            <Button variant="light">
+                                            <Button variant="info">
                                                 Details
                                             </Button>
                                         </LinkContainer>

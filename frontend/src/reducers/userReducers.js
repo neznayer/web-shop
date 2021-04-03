@@ -57,7 +57,10 @@ export const userRegisterReducer = (state = {}, action) => {
             return state;
     }
 };
-export const userDetailsReducer = (state = { user: {} }, action) => {
+export const userDetailsReducer = (
+    state = { user: { name: "", email: "", isAdmin: false } },
+    action
+) => {
     switch (action.type) {
         case USER_DETAILS_REQUEST:
             return { ...state, loading: true };

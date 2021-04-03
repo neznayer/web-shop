@@ -28,17 +28,25 @@ const Homescreen = ({ match }) => {
         <>
             <Meta />
             {!keyword ? (
-                <ProductCarousel />
+                <>
+                    <ProductCarousel />
+                    <h1>Latest Products</h1>
+                </>
             ) : (
-                <Link to="/" className="btn btn-light">
-                    Go back
-                </Link>
+                <>
+                    <Link to="/" className="btn btn-light">
+                        Go back
+                    </Link>
+                    <h1>Search results</h1>
+                </>
             )}
-            <h1>Latest Products</h1>
+
             {loading ? (
                 <Loader />
             ) : error ? (
                 <Message variant="danger">{error}</Message>
+            ) : !products?.length && keyword ? (
+                <h2> Search returned no results </h2>
             ) : (
                 <>
                     <Row>

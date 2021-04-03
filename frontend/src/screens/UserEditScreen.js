@@ -16,10 +16,11 @@ const UserEditScreen = ({ match, history }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
-
+    console.log(`first load init state ${isAdmin}`);
     const dispatch = useDispatch();
 
     const userDetails = useSelector((state) => state.userDetails);
+
     const { loading, error, user } = userDetails;
     const {
         loading: loadingUpdate,
@@ -30,22 +31,31 @@ const UserEditScreen = ({ match, history }) => {
     // if there i sno user, get it from userid. dispatch puts found user in state.
     // useEffect fires bcoz user is changed
     // setName  etc., will then fill input fields with user info
+
     useEffect(() => {
         // if user update is successed then redirect to user list
+        dispatch(getUserDetails(userId));
+
         if (successUpdate) {
             dispatch({ type: USER_UPDATE_BY_ADMIN_RESET });
 
             history.push("/admin/userlist");
         } else {
-            if (!user.name) {
-                dispatch(getUserDetails(userId));
-            } else {
-                setName(user.name);
-                setEmail(user.email);
-                setIsAdmin(user.isAdmin);
-            }
+            setName(user.name);
+            setEmail(user.email);
+            setIsAdmin(user.isAdmin);
         }
-    }, [user, userId, successUpdate, history, dispatch]);
+    }, [
+        userId,
+        user.name,
+        user.email,
+        user.isAdmin,
+        successUpdate,
+        history,
+        dispatch,
+    ]);
+    // better not using objects as references. Even if content is the same, when const obj = {...obj} it got reassigned, it becoming a new object, different.
+    // use concrete values is better. (not obj, but obj.x, obj.y ...)
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -87,6 +97,7 @@ const UserEditScreen = ({ match, history }) => {
                     </Form.Group>
                     <Form.Group controlId="isAdmin">
                         <Form.Label>Password</Form.Label>
+                        {console.log(` load in code state ${isAdmin}`)}
                         <Form.Check
                             type="checkbox"
                             label="is admin?"

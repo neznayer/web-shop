@@ -33,7 +33,9 @@ const ProductScreen = ({ history, match }) => {
 
     const dispatch = useDispatch();
     const productDetails = useSelector((state) => state.productDetails);
+
     const { loading, error, product } = productDetails;
+
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
     const {
@@ -79,7 +81,7 @@ const ProductScreen = ({ history, match }) => {
                                 fluid
                                 src={product.image}
                                 alt={product.name}
-                            ></Image>{" "}
+                            ></Image>
                             {/*fluid makes image to stay inside container */}
                         </Col>
                         <Col md={3}>
@@ -89,8 +91,8 @@ const ProductScreen = ({ history, match }) => {
                                 </ListGroupItem>
                                 <ListGroupItem>
                                     <Rating
-                                        value={+product.rating}
-                                        text={`${product.numReviews} reviews`}
+                                        value={product.rating || 0}
+                                        text={`${product?.numReviews} reviews`}
                                     />
                                 </ListGroupItem>
                                 <ListGroupItem>

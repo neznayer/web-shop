@@ -1,18 +1,19 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
 import { SearchBox } from "./SearchBox";
 
-const Header = () => {
+const Header = ({ history }) => {
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
     const dispatch = useDispatch();
 
     const logoutHandler = () => {
         dispatch(logout());
+        history.push("/");
     };
     return (
         <header>
@@ -44,6 +45,7 @@ const Header = () => {
                                             Profile
                                         </NavDropdown.Item>
                                     </LinkContainer>
+
                                     <NavDropdown.Item onClick={logoutHandler}>
                                         Logout
                                     </NavDropdown.Item>
@@ -82,4 +84,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default withRouter(Header);
