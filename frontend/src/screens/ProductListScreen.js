@@ -49,13 +49,13 @@ const ProductListScreen = ({ history, match }) => {
     };
 
     useEffect(() => {
-        dispatch({ type: PRODUCT_CREATE_RESET });
-
         if (!userInfo.isAdmin) {
             history.push("/login");
         }
         if (successCreate) {
+            console.log(createdProduct);
             history.push(`/admin/product/${createdProduct._id}/edit`);
+            dispatch({ type: PRODUCT_CREATE_RESET });
         } else {
             dispatch(listProducts("", pageNumber));
         }

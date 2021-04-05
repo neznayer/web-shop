@@ -32,17 +32,15 @@ const ProductEditScreen = ({ match, history }) => {
     const { loading, error, product } = useSelector(
         (state) => state.productDetails
     );
+
     const {
         loading: loadingUpdate,
         error: errorUpdate,
         success: successUpdate,
     } = useSelector((state) => state.productUpdate);
 
-    // if there i sno user, get it from userid. dispatch puts found user in state.
-    // useEffect fires bcoz user is changed
-    // setName  etc., will then fill input fields with user info
     useEffect(() => {
-        if (!product.name || product._id !== productId) {
+        if (!product || !product.name || product._id !== productId) {
             dispatch(listProductDetails(productId));
         } else {
             setProductEditDetails(product);
